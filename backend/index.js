@@ -22,11 +22,13 @@ app.use('/temp', temperatureRoutes);
 //     const response = await axios.get(`https://api.thingspeak.com/channels/2571491/feeds.json?api_key=CMQGB44P9YIB6F6Q`);
 //     console.log(response.data.feeds[response.data.feeds.length -1]);
 
-//     await axios.post('http://localhost:8000/temp/', {temp: Number(response.data.feeds[response.data.feeds.length -1].field1) * 1000})
+//     await axios.post('http://localhost:8000/temp/', {temp: Number(response.data.feeds[response.data.feeds.length -1].field1) * 1000, hum: Number(response.data.feeds[response.data.feeds.length -1].field2) * 1000})
 
 //     console.log('updated');
 
-// }, 10000)
+// }, 30000)
+
+// listen for new data saved
 
 app.listen(process.env.PORT ,() => {
     console.log("iot_subgraph server is running on port:", process.env.PORT);

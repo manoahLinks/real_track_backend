@@ -4,12 +4,12 @@ const ethers = require('ethers'),
     abi = require('../abis/abi.json');
 
 const encryptedKey = fs.readFileSync("./.encryptKey.json", "utf8");
-const provider = new ethers.JsonRpcProvider("https://sepolia.infura.io/v3/ee5d4276d00a426192590cc641bb1cf6");
+const provider = new ethers.JsonRpcProvider(process.env.BASE_RPC_URL);
 
 
 exports.updateTemperature = async (req, res) => {
 
-    const {temp} = req.body;
+    const {temp, hum} = req.body;
 
     try {
 
@@ -18,10 +18,10 @@ exports.updateTemperature = async (req, res) => {
         wallet = wallet.connect(provider);
 
         // get smart contract instance with ethers
-        const contract =  new ethers.Contract(process.env.IOT_CONTRACT, abi, wallet);
+        const contract =  new ethers.Contract(process.env.IOT_CONTRACT_BASE, abi, wallet);
 
         // make call to contract to create event
-        const transaction = await contract.updateTemperature(temp);
+        const transaction = await contract.updateSensorData(temp, hum);
         // await reciept
         const reciept = await transaction.wait()
 
